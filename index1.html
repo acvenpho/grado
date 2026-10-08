@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Oficial de Galerías • Graduación & Rayado de Camisa</title>
+  
+  <!-- Google Fonts: Montserrat (Modern UI) & Playfair Display (Elegant Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-blue: #0284c7;
+      --navy-deep: #0f172a;
+      --sky-light: #e0f2fe;
+      --sky-ultra-soft: #f0f9ff;
+      --white-pure: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-soft: rgba(186, 230, 253, 0.6);
+      --card-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+      /* Disable text selection across app */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body {
+      background: linear-gradient(170deg, #ffffff 0%, #f8fafc 30%, #f0f9ff 65%, #e0f2fe 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem 3rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ANTI-SCREENSHOT BLUR CLASS */
+    body.protected-blur .main-container {
+      filter: blur(28px) grayscale(90%);
+      pointer-events: none;
+      transition: filter 0.25s ease-out;
+    }
+
+    /* WATERMARK OVERLAY */
+    .watermark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.04;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-content: space-around;
+      overflow: hidden;
+    }
+
+    .watermark-overlay span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transform: rotate(-25deg);
+      color: var(--navy-deep);
+      white-space: nowrap;
+      margin: 2.5rem;
+    }
+
+    /* CONTAINER PRINCIPAL */
+    .main-container {
+      max-width: 980px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      z-index: 10;
+      transition: filter 0.25s ease;
+    }
+
+    .membrete-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 12px 35px -10px rgba(14, 165, 233, 0.15);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .membrete-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0284c7, #38bdf8, #7dd3fc, #0284c7);
+    }
+
+    .membrete-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .membrete-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border: 3px solid #e0f2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.7rem;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.25);
+      flex-shrink: 0;
+    }
+
+    .membrete-titles {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .membrete-country {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 0.2rem;
+    }
+
+    .membrete-institution {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--navy-deep);
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .membrete-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+
+    .membrete-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(2, 132, 199, 0.2), transparent);
+      margin: 1.2rem 0;
+    }
+
+    .membrete-info-pills {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .info-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(224, 242, 254, 0.5);
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid rgba(186, 230, 253, 0.5);
+    }
+
+    .info-pill i {
+      color: var(--primary-blue);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .post-card {
+      background: #ffffff;
+      border: 1px solid rgba(186, 230, 253, 0.8);
+      border-radius: 22px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+
+    .post-card:hover {
+      transform: translateY(-8px);
+      border-color: #38bdf8;
+      box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.25);
+    }
+
+    .post-image-wrapper {
+      width: 100%;
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+      background-color: #bae6fd;
+    }
+
+    .post-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+
+    .post-card:hover .post-image {
+      transform: scale(1.06);
+    }
+
+    .post-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .post-body {
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+      gap: 1.2rem;
+    }
+
+    .post-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy-deep);
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.1rem;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .btn-action {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s ease;
+    }
+
+    .post-card:hover .btn-action {
+      color: #0369a1;
+    }
+
+    .btn-action i {
+      transition: transform 0.25s ease;
+    }
+
+    .post-card:hover .btn-action i {
+      transform: translateX(5px);
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .security-bar {
+      position: fixed;
+      bottom: 1.2rem;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f8fafc;
+      padding: 0.6rem 1.3rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .dot-active {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* MODAL SIMULATION FOR REDIRECT */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: scale(0.9);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-backdrop.active .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 1rem auto;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy-deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-btn {
+      background: var(--primary-blue);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.8rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      width: 100%;
+    }
+
+    .modal-btn:hover {
+      background: #0369a1;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem 0.75rem 3rem 0.75rem;
+      }
+
+      .membrete-wrapper {
+        padding: 1.4rem 1rem;
+      }
+
+      .membrete-header-top {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .membrete-institution {
+        font-size: 1.3rem;
+      }
+
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post-image-wrapper {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- WATERMARK OVERLAY -->
+  <div class="watermark-overlay">
+    <span>GALERÍA PRIVADA • NO CAPTURAR</span>
+    <span>SISTEMA PROTEGIDO</span>
+    <span>GALERÍA PRIVADA • NO CAPTURAR</span>
+    <span>SISTEMA PROTEGIDO</span>
+  </div>
+
+  <div class="main-container">
+    
+    <header class="membrete-wrapper">
+      <div class="membrete-header-top">
+        <div class="membrete-logo">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="membrete-titles">
+          <span class="membrete-country">REPÚBLICA BOLIVARIANA DE VENEZUELA</span>
+          <h1 class="membrete-institution">Unidad Educativa Nacional</h1>
+          <p class="membrete-sub">Comité de Graduación • Promoción LXII</p>
+        </div>
+      </div>
+
+      <div class="membrete-divider"></div>
+
+      <div class="membrete-info-pills">
+        <div class="info-pill">
+          <i class="fa-solid fa-camera"></i> Portal de Fotos
+        </div>
+        <div class="info-pill">
+          <i class="fa-solid fa-shield-halved"></i> Acceso Privado
+        </div>
+        <div class="info-pill">
+          <i class="fa-solid fa-calendar-check"></i> Eventos 2026
+        </div>
+      </div>
+    </header>
+
+    <div class="section-title">
+      Selecciona una categoría para acceder a la galería oficial
+    </div>
+
+    <div class="posts-grid">
+
+      <!-- POST 1: ACTO DE GRADUACIÓN -->
+      <!-- Reemplaza "https://..." con tu enlace real a Google Drive, OneDrive o tu galería -->
+      <a href="https://ejemplo.com/galeria-acto-graduacion" class="post-card" onclick="handlePostClick(event, 'Acto de Graduación', 'https://ejemplo.com/galeria-acto-graduacion')">
+        <div class="post-image-wrapper">
+          <span class="post-badge">Solemnidad</span>
+          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop" alt="Acto de Graduación" class="post-image" ondragstart="return false;">
+        </div>
+        <div class="post-body">
+          <div>
+            <h2 class="post-heading">Acto de Graduación</h2>
+            <p class="post-desc">Accede a la colección fotográfica oficial del protocolo, entrega de títulos y momentos solemnes con la entrega de reconocimientos.</p>
+          </div>
+          <div class="post-footer">
+            <span class="btn-action">
+              Ver Galería Completa <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- POST 2: RAYADO DE CAMISA -->
+      <!-- Reemplaza "https://..." con tu enlace real a Google Drive, OneDrive o tu galería -->
+      <a href="https://ejemplo.com/galeria-rayado-camisa" class="post-card" onclick="handlePostClick(event, 'Rayado de Camisa', 'https://ejemplo.com/galeria-rayado-camisa')">
+        <div class="post-image-wrapper">
+          <span class="post-badge">Celebración</span>
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop" alt="Rayado de Camisa" class="post-image" ondragstart="return false;">
+        </div>
+        <div class="post-body">
+          <div>
+            <h2 class="post-heading">Rayado de Camisa</h2>
+            <p class="post-desc">Explora la galería con las fotos de la firma de camisas, firmas del último día, dinámicas recreativas y momentos festivos.</p>
+          </div>
+          <div class="post-footer">
+            <span class="btn-action">
+              Ver Galería Completa <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <footer>
+      &copy; 2026 Promoción de Graduandos. Portal de Memorias Protegido.
+    </footer>
+
+  </div>
+
+  <!-- FLOATING SECURITY BAR -->
+  <div class="security-bar">
+    <div class="dot-active"></div>
+    <span>Protección anti-captura de pantalla activa</span>
+  </div>
+
+  <!-- MODAL DIALOG FOR INTERACTIVE REDIRECT SIMULATION -->
+  <div class="modal-backdrop" id="redirectModal">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <i class="fa-solid fa-images"></i>
+      </div>
+      <h3 class="modal-title" id="modalEventTitle">Redirigiendo a Galería</h3>
+      <p class="modal-text" id="modalEventText">Serás redirigido a la plataforma donde se encuentra alojada toda la galería en alta resolución.</p>
+      <button class="modal-btn" onclick="closeModal()">Entendido</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Prevent Right-Click Context Menu
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // 2. Prevent Common Screenshot Shortcuts & DevTools Keys
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        triggerBlurEffect();
+        e.preventDefault();
+      }
+
+      if (e.ctrlKey && ['p', 'P', 's', 'S', 'u', 'U'].includes(e.key)) {
+        e.preventDefault();
+      }
+
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key))) {
+        e.preventDefault();
+      }
+
+      if (e.metaKey && e.shiftKey && ['3', '4', '5'].includes(e.key)) {
+        triggerBlurEffect();
+        e.preventDefault();
+      }
+    });
+
+    // 3. Blur window when focus is lost (Snipping Tool, Screen Capture, Alt+Tab)
+    window.addEventListener('blur', function() {
+      document.body.classList.add('protected-blur');
+    });
+
+    window.addEventListener('focus', function() {
+      document.body.classList.remove('protected-blur');
+    });
+
+    function triggerBlurEffect() {
+      document.body.classList.add('protected-blur');
+      setTimeout(function() {
+        document.body.classList.remove('protected-blur');
+      }, 3000);
+    }
+
+    // 4. Prevent Image Dragging
+    document.addEventListener('dragstart', function(e) {
+      e.preventDefault();
+    });
+
+    // 5. Handle Click on Posts (Simulation / Redirect)
+    function handlePostClick(e, eventName, targetUrl) {
+      // In live production, allow direct link navigation.
+      // For preview purposes, show an explicit confirmation modal.
+      if (targetUrl.includes('ejemplo.com')) {
+        e.preventDefault();
+        document.getElementById('modalEventTitle').innerText = 'Redirigiendo a ' + eventName;
+        document.getElementById('modalEventText').innerText = 'En tu sitio web real, al hacer clic aquí se abrirá tu enlace de galería: ' + targetUrl;
+        document.getElementById('redirectModal').classList.add('active');
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('redirectModal').classList.remove('active');
+    }
+  </script>
+
+</body>
+</html>
